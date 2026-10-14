@@ -1,0 +1,420 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L.S EARNING</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f1f5f2;
+  color: #183024;
+}
+
+header {
+  background: linear-gradient(135deg, #064e3b, #16a34a);
+  color: white;
+  text-align: center;
+  padding: 35px 15px;
+}
+
+header h1 {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+header p {
+  line-height: 1.8;
+}
+
+.container {
+  max-width: 700px;
+  margin: auto;
+  padding: 15px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  margin: 15px 0;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px #00000010;
+}
+
+button, .whatsapp {
+  border: none;
+  padding: 13px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+}
+
+.whatsapp {
+  display: inline-block;
+  background: #25d366;
+  color: white;
+  margin-top: 12px;
+}
+
+.members {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+button {
+  background: #15803d;
+  color: white;
+  width: 100%;
+  margin: 4px 0;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.hidden {
+  display: none;
+}
+
+.balance {
+  font-size: 25px;
+  color: #15803d;
+  font-weight: bold;
+}
+
+footer {
+  background: #10251a;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+@media (max-width: 400px) {
+  header h1 {
+    font-size: 26px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>𝗟.𝗦 𝗘𝗔𝗥𝗡𝗜𝗡𝗚</h1>
+
+  <p><b>স্মার্ট উপায়ে আয় করুন আপনার অবসর সময়ে!</b></p>
+
+  <p>
+    অনলাইনে দক্ষতা অর্জন করুন এবং ঘরে বসে
+    আয়ের সুযোগ সম্পর্কে জানুন।
+    আজই যোগ দিন আমাদের মেম্বারদের সাথে।
+  </p>
+
+  <a class="whatsapp"
+     href="https://wa.me/8801606871929"
+     target="_blank">
+     WhatsApp-এ মেসেজ করুন
+  </a>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>MEMBER AREA</h2>
+    <div class="members" id="members"></div>
+  </div>
+
+  <div class="card hidden" id="login">
+    <h3 id="loginTitle">Member Login</h3>
+
+    <input id="password"
+           type="password"
+           placeholder="পাসওয়ার্ড লিখুন">
+
+    <button onclick="loginMember()">প্রবেশ করুন</button>
+    <p id="error"></p>
+  </div>
+
+  <div class="card hidden" id="memberPage">
+    <h2 id="memberTitle">MEMBER</h2>
+
+    <p><b>𝗡𝘂𝗺𝗯𝗲𝗿:</b> <span id="number"></span></p>
+    <p><b>𝗡𝗮𝗺𝗲:</b> <span id="name"></span></p>
+    <p><b>𝗧𝗸:</b> <span class="balance" id="tk"></span></p>
+
+    <button onclick="showWithdraw()">টাকা তুলুন</button>
+
+    <div id="withdraw" class="hidden">
+      <h3>Withdraw Form</h3>
+
+      <input id="amount" type="number"
+             min="1" placeholder="Tk">
+
+      <input id="bkash" type="tel"
+             placeholder="Number">
+
+      <p><b>Bkash ✅</b></p>
+
+      <button onclick="submitWithdraw()">OK</button>
+      <p id="withdrawMessage"></p>
+    </div>
+
+    <button onclick="logout()">লগ আউট</button>
+  </div>
+
+  <div class="card">
+    <h2>TEAM PANEL</h2>
+    <button onclick="showAdminLogin()">TEAM PANEL</button>
+  </div>
+
+  <div class="card hidden" id="adminLogin">
+    <h3>Team Panel Login</h3>
+
+    <input id="adminPass" type="password"
+           placeholder="Admin Password">
+
+    <button onclick="adminLogin()">লগ ইন</button>
+    <p id="adminError"></p>
+  </div>
+
+  <div class="card hidden" id="adminPanel">
+    <h2>TEAM CONTROL PANEL</h2>
+
+    <label>Member নির্বাচন করুন</label>
+    <select id="editId" onchange="loadMember()"
+            style="width:100%;padding:10px">
+    </select>
+
+    <p>নাম:</p>
+    <input id="editName" placeholder="Member Name">
+
+    <p>নম্বর:</p>
+    <input id="editNumber" placeholder="Member Number">
+
+    <p>টাকার পরিমাণ:</p>
+    <input id="editTk" type="number" min="0"
+           placeholder="Balance">
+
+    <p>নতুন পাসওয়ার্ড:</p>
+    <input id="editPass" type="password"
+           placeholder="New Password">
+
+    <button onclick="saveMember()">SAVE CHANGES</button>
+
+    <p id="saveMessage"></p>
+
+    <button onclick="adminLogout()">Admin Logout</button>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 𝗟.𝗦 𝗘𝗔𝗥𝗡𝗜𝗡𝗚
+</footer>
+
+<script>
+const ADMIN_PASSWORD = "ttcm";
+const STORAGE_KEY = "ls_earning_members";
+
+let data;
+
+try {
+  data = JSON.parse(localStorage.getItem(STORAGE_KEY));
+} catch (e) {
+  data = null;
+}
+
+if (!Array.isArray(data) || data.length !== 10) {
+  data = Array.from({length: 10}, (_, i) => ({
+    id: i + 1,
+    name: "Member " + (i + 1),
+    number: "",
+    tk: 0,
+    password: "member" + (i + 1)
+  }));
+}
+
+let selected = 0;
+let current = 0;
+
+function saveData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function hideAll() {
+  ["login", "memberPage", "adminLogin", "adminPanel"]
+    .forEach(id => document.getElementById(id)
+    .classList.add("hidden"));
+}
+
+function renderMembers() {
+  const box = document.getElementById("members");
+  box.innerHTML = "";
+
+  data.forEach(m => {
+    const b = document.createElement("button");
+    b.textContent = "𝗠𝗘𝗠𝗕𝗘𝗥 " + m.id;
+    b.onclick = () => {
+      selected = m.id;
+      hideAll();
+      document.getElementById("login").classList.remove("hidden");
+      document.getElementById("loginTitle").textContent =
+        "MEMBER " + m.id + " LOGIN";
+      document.getElementById("password").value = "";
+      document.getElementById("error").textContent = "";
+    };
+    box.appendChild(b);
+  });
+}
+
+function loginMember() {
+  const m = data.find(x => x.id === selected);
+
+  if (m && document.getElementById("password").value === m.password) {
+    current = selected;
+    showMember();
+  } else {
+    document.getElementById("error").textContent =
+      "ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।";
+  }
+}
+
+function showMember() {
+  const m = data.find(x => x.id === current);
+  if (!m) return;
+
+  hideAll();
+
+  document.getElementById("memberPage").classList.remove("hidden");
+  document.getElementById("memberTitle").textContent =
+    "MEMBER " + m.id;
+
+  document.getElementById("number").textContent =
+    m.number || "তথ্য দেওয়া হয়নি";
+
+  document.getElementById("name").textContent =
+    m.name || "তথ্য দেওয়া হয়নি";
+
+  document.getElementById("tk").textContent =
+    Number(m.tk).toLocaleString("en-BD");
+
+  document.getElementById("withdraw").classList.add("hidden");
+  document.getElementById("withdrawMessage").textContent = "";
+}
+
+function showWithdraw() {
+  document.getElementById("withdraw").classList.toggle("hidden");
+}
+
+function submitWithdraw() {
+  const amount = Number(document.getElementById("amount").value);
+  const phone = document.getElementById("bkash").value.trim();
+  const m = data.find(x => x.id === current);
+
+  if (!m || !Number.isFinite(amount) || amount <= 0 || !phone) {
+    alert("সঠিক Tk এবং বিকাশ নম্বর দিন।");
+    return;
+  }
+
+  if (amount > Number(m.tk)) {
+    alert("আপনার ব্যালেন্স পর্যাপ্ত নয়।");
+    return;
+  }
+
+  document.getElementById("withdrawMessage").textContent =
+    "আপনার উইথড্র অনুরোধ জমা হয়েছে। পেমেন্ট এখনো সম্পন্ন হয়নি।";
+}
+
+function logout() {
+  current = 0;
+  hideAll();
+}
+
+function showAdminLogin() {
+  hideAll();
+  document.getElementById("adminLogin").classList.remove("hidden");
+}
+
+function adminLogin() {
+  if (document.getElementById("adminPass").value === ADMIN_PASSWORD) {
+    hideAll();
+    document.getElementById("adminPanel").classList.remove("hidden");
+
+    const select = document.getElementById("editId");
+    select.innerHTML = "";
+
+    data.forEach(m => {
+      const option = document.createElement("option");
+      option.value = m.id;
+      option.textContent = "MEMBER " + m.id;
+      select.appendChild(option);
+    });
+
+    loadMember();
+  } else {
+    document.getElementById("adminError").textContent =
+      "ভুল অ্যাডমিন পাসওয়ার্ড!";
+  }
+}
+
+function loadMember() {
+  const id = Number(document.getElementById("editId").value);
+  const m = data.find(x => x.id === id);
+  if (!m) return;
+
+  document.getElementById("editName").value = m.name;
+  document.getElementById("editNumber").value = m.number;
+  document.getElementById("editTk").value = m.tk;
+  document.getElementById("editPass").value = "";
+}
+
+function saveMember() {
+  const id = Number(document.getElementById("editId").value);
+  const m = data.find(x => x.id === id);
+  const balance = Number(document.getElementById("editTk").value);
+
+  if (!m || !Number.isFinite(balance) || balance < 0) {
+    alert("সঠিক ব্যালেন্স লিখুন।");
+    return;
+  }
+
+  m.name = document.getElementById("editName").value.trim();
+  m.number = document.getElementById("editNumber").value.trim();
+  m.tk = balance;
+
+  const pass = document.getElementById("editPass").value;
+  if (pass.trim()) m.password = pass;
+
+  saveData();
+  renderMembers();
+
+  document.getElementById("saveMessage").textContent =
+    "তথ্য সংরক্ষণ হয়েছে।";
+
+  loadMember();
+}
+
+function adminLogout() {
+  hideAll();
+  document.getElementById("adminPass").value = "";
+}
+
+renderMembers();
+</script>
+
+</body>
+</html>
